@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Una sorpresa para ti ✨</title>
+  <meta name="theme-color" content="#0b0b10" />
+  <style>
+    :root{
+      --bg:#0b0b10;
+      --card:#121221;
+      --muted:rgba(255,255,255,.72);
+      --muted2:rgba(255,255,255,.55);
+      --accent:#b6ff6a;
+      --accent2:#7aa7ff;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 22px;
+      --pad: 18px;
+      --max: 520px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1100px 700px at 20% 10%, rgba(122,167,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 90% 30%, rgba(182,255,106,.14), transparent 55%),
+        radial-gradient(700px 520px at 40% 95%, rgba(255,255,255,.06), transparent 55%),
+        var(--bg);
+      color:#fff;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      overflow-x:hidden;
+    }
+
+    /* Fullscreen sections (swipe/scroll) */
+    .wrap{
+      height:100%;
+      overflow-y:auto;
+      scroll-snap-type: y mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    section{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 28px 18px;
+      scroll-snap-align: start;
+      position:relative;
+    }
+
+    .card{
+      width: min(var(--max), 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      backdrop-filter: blur(10px);
+    }
+
+    .badge{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing:.2px;
+      margin-bottom: 14px;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:99px;background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(182,255,106,.13);
+    }
+
+    h1{
+      font-size: 30px;
+      line-height:1.1;
+      margin: 0 0 10px 0;
+      letter-spacing:-.5px;
+    }
+    h2{
+      font-size: 22px;
+      margin:0 0 8px 0;
+      letter-spacing:-.2px;
+    }
+    p{
+      margin: 10px 0 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height:1.5;
+    }
+
+    .big{
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin: 8px 0 6px 0;
+    }
+    .sub{
+      color: var(--muted2);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+    button, a.btn{
+      appearance:none;
+      border:0;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      letter-spacing:.2px;
+      background: rgba(255,255,255,.08);
+      color:#fff;
+      border: 1px solid rgba(255,255,255,.14);
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+    }
+    button:hover, a.btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.11); border-color: rgba(255,255,255,.22)}
+    button:active, a.btn:active{transform: translateY(0px) scale(.99)}
+    .primary{
+      background: linear-gradient(90deg, rgba(182,255,106,.95), rgba(122,167,255,.95));
+      color:#0b0b10;
+      border: 0;
+    }
+    .primary:hover{filter: brightness(1.04)}
+    .ghost{background: transparent}
+
+    .hint{
+      display:flex; justify-content:space-between; align-items:center;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(255,255,255,.14);
+      color: var(--muted2);
+      font-size: 13px;
+    }
+    .chev{
+      width: 22px; height: 22px; border-radius: 99px;
+      border: 1px solid rgba(255,255,255,.18);
+      display:flex; align-items:center; justify-content:center;
+      opacity:.85;
+    }
+
+    /* Ticket */
+    .ticket{
+      margin-top: 14px;
+      background: rgba(0,0,0,.28);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 18px;
+      overflow:hidden;
+    }
+    .ticketTop{
+      padding: 16px 16px 10px 16px;
+      background:
+        radial-gradient(700px 220px at 10% 20%, rgba(182,255,106,.22), transparent 60%),
+        radial-gradient(650px 260px at 90% 0%, rgba(122,167,255,.20), transparent 55%),
+        rgba(255,255,255,.04);
+      border-bottom: 1px dashed rgba(255,255,255,.18);
+    }
+    .ticketTop .label{
+      font-size:12px;
+      color: var(--muted2);
+      letter-spacing:.25px;
+      text-transform: uppercase;
+    }
+    .ticketTop .event{
+      font-size:22px;
+      font-weight: 900;
+      letter-spacing: -.4px;
+      margin-top: 6px;
+    }
+    .ticketBody{
+      padding: 14px 16px 16px 16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 14px;
+    }
+    .field .k{
+      font-size: 11px;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: .25px;
+    }
+    .field .v{
+      font-size: 15px;
+      margin-top: 2px;
+      font-weight: 700;
+    }
+    .count{
+      display:inline-flex;
+      align-items:baseline;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .count .n{
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing:-1px;
+    }
+    .count .t{
+      color: var(--muted2);
+      font-weight: 700;
+    }
+
+    /* Confetti canvas */
+    #fx{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      z-index: 50;
+    }
+
+    /* Tiny footer */
+    .tiny{
+      text-align:center;
+      margin-top: 14px;
+      color: rgba(255,255,255,.35);
+      font-size: 12px;
+    }
+
+    /* Smooth entrance */
+    .card{transform: translateY(10px); opacity:0; animation: enter .6s ease forwards}
+    @keyframes enter{to{transform: translateY(0); opacity:1}}
+    .delay1{animation-delay:.05s}
+    .delay2{animation-delay:.12s}
+    .delay3{animation-delay:.18s}
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .wrap{scroll-behavior:auto}
+      .card{animation:none; opacity:1; transform:none}
+      button:hover, a.btn:hover{transform:none}
+    }
+  </style>
+</head>
+
+<body>
+<canvas id="fx"></canvas>
+
+<div class="wrap" id="wrap">
+
+  <section>
+    <div class="card delay1">
+      <div class="badge"><span class="dot"></span> Tengo una cosa para ti…</div>
+      <h1>Prométeme una cosa 🤫</h1>
+      <p>No mires el final todavía. Solo ve bajando poquito a poco.</p>
+
+      <div class="hint">
+        <span>Desliza hacia abajo</span>
+        <span class="chev">↓</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card delay2">
+      <div class="badge"><span class="dot"></span> Primera pista</div>
+      <div class="big">Valencia</div>
+      <p>Planazo. De los que se recuerdan.</p>
+
+      <div class="hint">
+        <span>Otra pista te espera</span>
+        <span class="chev">↓</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card delay3">
+      <div class="badge"><span class="dot"></span> Segunda pista</div>
+      <div class="big">20 · Marzo</div>
+      <p>Apúntatelo, que ese día lo celebramos.</p>
+
+      <div class="btnrow">
+        <!-- Recomendación: usar un enlace a Spotify/YouTube para evitar problemas de copyright -->
+        <a class="btn primary" id="playBtn" href="https://open.spotify.com/search/dani%20fern%C3%A1ndez" target="_blank" rel="noopener">
+          ▶️ Dale play (Spotify)
+        </a>
+        <a class="btn ghost" href="#final" id="goFinal">Estoy lista 👀</a>
+      </div>
+
+      <p class="sub">
+        *Si no tienes Spotify, puedes cambiar este botón por YouTube (te lo explico en el README).*
+      </p>
+
+      <div class="hint">
+        <span>Y ahora… la sorpresa</span>
+        <span class="chev">↓</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="final">
+    <div class="card">
+      <div class="badge"><span class="dot"></span> Vale oficial</div>
+      <h2>Vale por…</h2>
+
+      <div class="ticket" role="group" aria-label="Vale por entradas">
+        <div class="ticketTop">
+          <div class="label">CONCIERTO</div>
+          <div class="event">Dani Fernández</div>
+          <div class="count"><span class="n">2</span><span class="t">entradas</span></div>
+        </div>
+        <div class="ticketBody">
+          <div class="field">
+            <div class="k">Ciudad</div>
+            <div class="v">Valencia</div>
+          </div>
+          <div class="field">
+            <div class="k">Fecha</div>
+            <div class="v">20 de marzo</div>
+          </div>
+          <div class="field">
+            <div class="k">Para</div>
+            <div class="v">Mi persona favorita</div>
+          </div>
+          <div class="field">
+            <div class="k">De</div>
+            <div class="v">Alonso 💚</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btnrow">
+        <button class="primary" id="confettiBtn">🎉 ¡Sorpresa!</button>
+        <button id="copyBtn">🔗 Copiar link (si lo subes)</button>
+      </div>
+
+      <p class="sub">
+        Abre el botón de Spotify arriba para poner música mientras lees esto 🙂<br/>
+        (Si quieres que suene dentro de la página, también te lo dejo explicado.)
+      </p>
+
+      <div class="tiny">Hecho con cariño. Y con un poco de magia.</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // Smooth jump to final section
+  document.getElementById('goFinal').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('final').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  // Copy button: after you publish (Netlify/GitHub Pages), paste the final URL in README.
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    const url = window.location.href;
+    try{
+      await navigator.clipboard.writeText(url);
+      toast('Copiado ✅');
+    }catch{
+      toast('No pude copiar 😅 (mantén pulsado y copia el link)');
+    }
+  });
+
+  // Tiny toast
+  function toast(msg){
+    const el = document.createElement('div');
+    el.textContent = msg;
+    el.style.position='fixed';
+    el.style.left='50%';
+    el.style.bottom='22px';
+    el.style.transform='translateX(-50%)';
+    el.style.padding='10px 12px';
+    el.style.borderRadius='14px';
+    el.style.background='rgba(0,0,0,.55)';
+    el.style.border='1px solid rgba(255,255,255,.16)';
+    el.style.backdropFilter='blur(8px)';
+    el.style.color='rgba(255,255,255,.92)';
+    el.style.fontWeight='700';
+    el.style.zIndex='99';
+    el.style.boxShadow='0 14px 40px rgba(0,0,0,.45)';
+    document.body.appendChild(el);
+    setTimeout(()=>{ el.style.transition='opacity .3s ease'; el.style.opacity='0'; }, 1200);
+    setTimeout(()=>{ el.remove(); }, 1600);
+  }
+
+  // Confetti (lightweight, no libs)
+  const canvas = document.getElementById('fx');
+  const ctx = canvas.getContext('2d');
+  let W=0,H=0, confetti=[], anim=null;
+
+  function resize(){
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    W = canvas.width = Math.floor(window.innerWidth * dpr);
+    H = canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+
+  function burst(){
+    const count = 160;
+    confetti = [];
+    for(let i=0;i<count;i++){
+      confetti.push({
+        x: rand(0, window.innerWidth),
+        y: rand(-40, -10),
+        w: rand(6, 12),
+        h: rand(8, 16),
+        vx: rand(-1.5, 1.5),
+        vy: rand(2.5, 5.8),
+        r: rand(0, Math.PI*2),
+        vr: rand(-0.18, 0.18),
+        life: rand(60, 120),
+        t: 0
+      });
+    }
+    if(anim) cancelAnimationFrame(anim);
+    loop();
+  }
+
+  function loop(){
+    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    for(const p of confetti){
+      p.t++;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.r += p.vr;
+      p.vy += 0.03; // gravity
+      const alpha = Math.max(0, 1 - p.t/p.life);
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      // no fixed color: alternate light/dark based on phase to look shiny
+      const shine = (Math.sin(p.t/6)+1)/2;
+      ctx.fillStyle = `rgba(255,255,255,${0.35 + shine*0.55})`;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    }
+    confetti = confetti.filter(p => p.t < p.life && p.y < window.innerHeight + 60);
+    if(confetti.length){
+      anim = requestAnimationFrame(loop);
+    }else{
+      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+      anim = null;
+    }
+  }
+
+  document.getElementById('confettiBtn').addEventListener('click', () => {
+    burst();
+    toast('Te lo mereces 💚');
+  });
+
+  // Auto confetti when user reaches final section (once)
+  let fired = false;
+  const obs = new IntersectionObserver((entries)=>{
+    for(const e of entries){
+      if(e.isIntersecting && !fired){
+        fired = true;
+        burst();
+      }
+    }
+  }, {threshold: 0.6});
+  obs.observe(document.getElementById('final'));
+</script>
+
+</body>
+</html>
